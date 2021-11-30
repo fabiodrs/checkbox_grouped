@@ -187,6 +187,7 @@ class ListCustomGroupedCheckboxState extends State<ListCustomGroupedCheckbox> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: EdgeInsets.zero,
       shrinkWrap: true,
       addAutomaticKeepAlives: true,
       physics: widget.isScrollable

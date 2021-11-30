@@ -44,6 +44,7 @@ class SimpleGroupedCheckbox<T> extends StatefulWidget {
   final List<String> itemsTitle;
   final OnChanged? onItemSelected;
   final String? groupTitle;
+  final List<String>? itemsPrice;
   final AlignmentGeometry groupTitleAlignment;
   final List<String> itemsSubTitle;
   final GroupStyle? groupStyle;
@@ -59,6 +60,7 @@ class SimpleGroupedCheckbox<T> extends StatefulWidget {
     required this.controller,
     required this.itemsTitle,
     required this.values,
+    this.itemsPrice = const [],
     this.onItemSelected,
     this.groupTitle,
     this.groupTitleAlignment = Alignment.center,
@@ -118,6 +120,7 @@ class SimpleGroupedCheckboxState<T>
       checkFirstElement: widget.checkFirstElement,
       disableItems: widget.disableItems,
       itemsTitle: widget.itemsTitle,
+      itemsPrice: widget.itemsPrice,
       multiSelection: widget.controller.isMultipleSelection,
       preSelection: widget.controller.initSelectedItem?.cast<T>(),
     );
@@ -138,6 +141,7 @@ class SimpleGroupedCheckboxState<T>
         checkFirstElement: widget.checkFirstElement,
         disableItems: widget.disableItems,
         itemsTitle: widget.itemsTitle,
+        itemsPrice: widget.itemsPrice,
         multiSelection: widget.controller.isMultipleSelection,
         preSelection: widget.controller.initSelectedItem?.cast<T>(),
       );
@@ -148,6 +152,7 @@ class SimpleGroupedCheckboxState<T>
   @override
   Widget build(BuildContext context) {
     Widget childListChecks = ListView.builder(
+      padding: EdgeInsets.zero,
       itemCount: notifierItems.length,
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
@@ -170,9 +175,17 @@ class SimpleGroupedCheckboxState<T>
                     ? widget.groupStyle?.activeColor
                     : widget.groupStyle?.itemTitleStyle?.color,
               ),
+              priceStyle: widget.groupStyle?.itemTitleStyle?.copyWith(
+                color: item.checked!
+                    ? widget.groupStyle?.activeColor
+                    : widget.groupStyle?.itemTitleStyle?.color,
+              ),
               isLeading: widget.isLeading,
               itemSubTitle: widget.itemsSubTitle.isNotEmpty
                   ? widget.itemsSubTitle[i]
+                  : null,
+              itemPrice: widget.itemsPrice!.isNotEmpty
+                  ? widget.itemsPrice![i]
                   : null,
               itemSubStyle: widget.groupStyle?.subItemTitleStyle,
               isMultipleSelection: widget.controller.isMultipleSelection,
@@ -361,6 +374,7 @@ class _TitleGroupedCheckbox extends StatelessWidget {
   Widget build(BuildContext context) {
     if (isMultiSelection && title != null && checkboxTitle != null) {
       return ListTile(
+        //contentPadding: EdgeInsets.zero,
         title: Text(
           title!,
           style: titleStyle ??
@@ -383,6 +397,7 @@ class _TitleGroupedCheckbox extends StatelessWidget {
     }
     if (title != null)
       return ListTile(
+        //contentPadding: EdgeInsets.zero,
         title: Align(
           alignment: alignment,
           child: Text(
@@ -407,9 +422,11 @@ class _CheckboxItem<T> extends StatelessWidget {
   final T selectedValue;
   final Item item;
   final String? itemSubTitle;
+  final String? itemPrice;
   final int index;
   final Color? activeColor;
   final TextStyle? itemStyle;
+  final TextStyle? priceStyle;
   final TextStyle? itemSubStyle;
   final Function(int i, dynamic v) onChangedCheckBox;
 
@@ -418,9 +435,11 @@ class _CheckboxItem<T> extends StatelessWidget {
     this.isLeading = false,
     this.activeColor,
     this.itemStyle,
+    this.priceStyle,
     this.itemSubStyle,
     required this.item,
     this.itemSubTitle,
+    this.itemPrice,
     required this.value,
     required this.selectedValue,
     required this.index,
@@ -431,6 +450,7 @@ class _CheckboxItem<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!isMultipleSelection) {
       return RadioListTile<T>(
+        contentPadding: EdgeInsets.zero,
         groupValue: selectedValue,
         onChanged: item.isDisabled
             ? null
@@ -438,11 +458,19 @@ class _CheckboxItem<T> extends StatelessWidget {
                 onChangedCheckBox(index, v);
               },
         activeColor: activeColor ?? Theme.of(context).primaryColor,
-        title: AutoSizeText(
-          "${item.title}",
-          style: itemStyle,
-          minFontSize: 9,
-        ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+          Text(
+            "${item.title}",
+            style: itemStyle,
+          ),
+          itemPrice == null ? SizedBox(width: 0) : Text(
+            "$itemPrice",
+            style: priceStyle,
+          ),
+          
+        ],),
         subtitle: itemSubTitle != null
             ? AutoSizeText(
                 itemSubTitle!,
@@ -461,6 +489,7 @@ class _CheckboxItem<T> extends StatelessWidget {
     }
 
     return CheckboxListTile(
+      contentPadding: EdgeInsets.zero,
       onChanged: item.isDisabled
           ? null
           : (v) {
@@ -469,11 +498,24 @@ class _CheckboxItem<T> extends StatelessWidget {
               //});
             },
       activeColor: activeColor ?? Theme.of(context).primaryColor,
-      title: AutoSizeText(
-        item.title,
-        style: itemStyle,
-        minFontSize: 9,
-      ),
+      title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+          Text(
+            "${item.title}",
+            style: itemStyle,
+          ),
+          itemPrice == null ? SizedBox(width: 0) : Text(
+            "$itemPrice",
+            style: priceStyle,
+          ),
+          
+        ],),
+      // AutoSizeText(
+      //   item.title,
+      //   style: itemStyle,
+      //   minFontSize: 9,
+      // ),
       subtitle: itemSubTitle != null
           ? AutoSizeText(
               itemSubTitle!,

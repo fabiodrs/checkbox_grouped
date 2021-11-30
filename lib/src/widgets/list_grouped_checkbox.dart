@@ -33,6 +33,7 @@ class ListGroupedCheckbox<T> extends StatefulWidget {
   final List<List<String>> titles;
   final List<String> groupTitles;
   final List<String> subTitles;
+  final List<List<String>> prices;
   final List<List<T>> disabledValues;
   final TextStyle? titleGroupedTextStyle;
   final Alignment titleGroupedAlignment;
@@ -43,6 +44,7 @@ class ListGroupedCheckbox<T> extends StatefulWidget {
   ListGroupedCheckbox({
     required this.controller,
     required this.titles,
+    this.prices,
     required this.groupTitles,
     required this.values,
     this.isScrollable = true,
@@ -122,6 +124,7 @@ class ListGroupedCheckboxState<T> extends State<ListGroupedCheckbox> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: EdgeInsets.zero,
       shrinkWrap: true,
       addAutomaticKeepAlives: true,
       physics: widget.isScrollable
@@ -193,21 +196,37 @@ class ListGroupedCheckboxState<T> extends State<ListGroupedCheckbox> {
             }
           }
         }
-        return SimpleGroupedCheckbox<T>(
+        return Column(
+                children: [
+                  ListTile(
+                    title: Text(
+                      widget.groupTitles[index],
+                      style: widget.titleGroupedTextStyle ??
+                          Theme.of(context).textTheme.headline6?.copyWith(
+                                fontSize: 16,
+                              ),
+                    ),
+                  ),
+                  SimpleGroupedCheckbox<T>(
+          helperGroupTitle: false,
+          isLeading: true,
           controller: listControllers[index],
           itemsTitle: widget.titles[index],
           values: widget.values[index] as List<T>,
           disableItems: widget.disabledValues.isNotEmpty
               ? widget.disabledValues[index] as List<String>
               : [],
-          groupTitle: widget.groupTitles[index],
-          groupTitleAlignment: widget.titleGroupedAlignment,
+          // groupTitle: widget.groupTitles[index],
+          // groupTitleAlignment: widget.titleGroupedAlignment,
+          itemsPrice: widget.prices[index],
           onItemSelected: widget.onSelectedGroupChanged != null
               ? (selection) async {
                   final list = await getAllValues();
                   widget.onSelectedGroupChanged!(list);
                 }
               : null,
+        )
+                ]
         );
       },
       itemCount: len,

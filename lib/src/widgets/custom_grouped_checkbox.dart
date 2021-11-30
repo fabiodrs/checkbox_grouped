@@ -168,6 +168,7 @@ class CustomGroupedCheckboxState<T>
       );
     };
     Widget child = ListView.builder(
+      padding: EdgeInsets.zero,
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
@@ -178,6 +179,7 @@ class CustomGroupedCheckboxState<T>
     Axis axisScroll = Axis.vertical;
     if (widget._isGrid) {
       child = GridView.builder(
+        padding: EdgeInsets.zero,
         physics: NeverScrollableScrollPhysics(),
         gridDelegate: widget.gridDelegate!,
         itemBuilder: builder,

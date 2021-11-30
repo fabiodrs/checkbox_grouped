@@ -105,6 +105,7 @@ class SimpleGroupedSwitchState<T> extends StateGroup<T, SimpleGroupedSwitch> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: EdgeInsets.zero,
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
       physics: NeverScrollableScrollPhysics(),
