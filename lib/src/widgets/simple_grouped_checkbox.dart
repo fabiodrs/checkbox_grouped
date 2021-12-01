@@ -44,7 +44,7 @@ class SimpleGroupedCheckbox<T> extends StatefulWidget {
   final List<String> itemsTitle;
   final OnChanged? onItemSelected;
   final String? groupTitle;
-  final List<String>? itemsPrice;
+  final List<num>? itemsPrice;
   final AlignmentGeometry groupTitleAlignment;
   final List<String> itemsSubTitle;
   final GroupStyle? groupStyle;
@@ -422,7 +422,7 @@ class _CheckboxItem<T> extends StatelessWidget {
   final T selectedValue;
   final Item item;
   final String? itemSubTitle;
-  final String? itemPrice;
+  final num? itemPrice;
   final int index;
   final Color? activeColor;
   final TextStyle? itemStyle;

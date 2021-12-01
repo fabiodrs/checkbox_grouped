@@ -33,7 +33,7 @@ class ListGroupedCheckbox<T> extends StatefulWidget {
   final List<List<String>> titles;
   final List<String> groupTitles;
   final List<String> subTitles;
-  final List<List<String>> prices;
+  final List<List<num>> prices;
   final List<List<T>> disabledValues;
   final TextStyle? titleGroupedTextStyle;
   final Alignment titleGroupedAlignment;
@@ -44,12 +44,12 @@ class ListGroupedCheckbox<T> extends StatefulWidget {
   ListGroupedCheckbox({
     required this.controller,
     required this.titles,
-    this.prices,
+    required this.prices,
     required this.groupTitles,
     required this.values,
     this.isScrollable = true,
     this.titleGroupedTextStyle,
-    this.titleGroupedAlignment = Alignment.centerLeft,
+    this.titleGroupedAlignment = Alignment.center,
     this.chipsStyle = const ChipsStyle(),
     this.mapItemGroupedType,
     this.subTitles = const [],
@@ -116,8 +116,16 @@ class ListGroupedCheckboxState<T> extends State<ListGroupedCheckbox> {
 
   Future<List<T>> getValuesByIndex(int index) async {
     assert(index < len);
-    List<T> resultList = List.empty();
-    resultList.addAll(listControllers[index].selectedItem);
+    List<T> resultList = [];
+    var result = listControllers[index].selectedItem;
+    if (result == null) { return resultList; }
+
+    //print('bla $result');
+    if (result.runtimeType == String) {
+      resultList.addAll([result]);
+    } else {
+      resultList.addAll(result.toList());
+    }
     return resultList;
   }
 
@@ -197,6 +205,7 @@ class ListGroupedCheckboxState<T> extends State<ListGroupedCheckbox> {
           }
         }
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   ListTile(
                     title: Text(
@@ -217,7 +226,7 @@ class ListGroupedCheckboxState<T> extends State<ListGroupedCheckbox> {
               ? widget.disabledValues[index] as List<String>
               : [],
           // groupTitle: widget.groupTitles[index],
-          // groupTitleAlignment: widget.titleGroupedAlignment,
+          groupTitleAlignment: widget.titleGroupedAlignment,
           itemsPrice: widget.prices[index],
           onItemSelected: widget.onSelectedGroupChanged != null
               ? (selection) async {

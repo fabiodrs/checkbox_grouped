@@ -25,6 +25,10 @@ void main() async {
               3,
               (i) => List.generate(5, (j) => "Title:$i-$j"),
             ),
+            prices: List.generate(
+              3,
+              (i) => List.generate(5, (j) => 0),
+            ),
           ),
         ),
       ),
@@ -61,6 +65,10 @@ void main() async {
               3,
               (i) => List.generate(5, (j) => "Title:$i-$j"),
             ),
+            prices: List.generate(
+              3,
+              (i) => List.generate(5, (j) => 0),
+            ),
           ),
         ),
       ),
@@ -93,6 +101,10 @@ void main() async {
             titles: List.generate(
               3,
               (i) => List.generate(5, (j) => "Title:$i-$j"),
+            ),
+            prices: List.generate(
+              3,
+              (i) => List.generate(5, (j) => 0),
             ),
           ),
         ),
