@@ -26,7 +26,7 @@ class ChipsStyle {
   final IconData? selectedIcon;
 
   const ChipsStyle({
-    this.backgroundColorItem = Colors.grey,
+    this.backgroundColorItem = Colors.yellow,
     this.disabledColor,
     this.selectedColorItem = Colors.black,
     this.selectedIcon,

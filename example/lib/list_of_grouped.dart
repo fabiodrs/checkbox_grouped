@@ -51,7 +51,7 @@ class _ListOfGroupedState extends State<ListOfGrouped> {
             ),
             prices: List.generate(
               5,
-              (i) => List.generate(5, (j) => 0),
+              (i) => List.generate(5, (j) => '0'),
             ),
             mapItemGroupedType: {
               1: GroupedType.Chips,

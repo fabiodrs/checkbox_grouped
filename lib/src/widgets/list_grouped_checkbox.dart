@@ -32,8 +32,9 @@ class ListGroupedCheckbox<T> extends StatefulWidget {
   final List<List<T>> values;
   final List<List<String>> titles;
   final List<String> groupTitles;
+  final List<Map<String,dynamic>> groupLimits;
   final List<String> subTitles;
-  final List<List<num>> prices;
+  final List<List<String>> prices;
   final List<List<T>> disabledValues;
   final TextStyle? titleGroupedTextStyle;
   final Alignment titleGroupedAlignment;
@@ -46,6 +47,7 @@ class ListGroupedCheckbox<T> extends StatefulWidget {
     required this.titles,
     required this.prices,
     required this.groupTitles,
+    required this.groupLimits,
     required this.values,
     this.isScrollable = true,
     this.titleGroupedTextStyle,
@@ -143,35 +145,65 @@ class ListGroupedCheckboxState<T> extends State<ListGroupedCheckbox> {
             widget.mapItemGroupedType!.isNotEmpty) {
           if (widget.mapItemGroupedType!.containsKey(index)) {
             if (widget.mapItemGroupedType![index] == GroupedType.Chips) {
+              //print('bla blabla');
               return Column(
                 children: [
-                  ListTile(
-                    title: Text(
-                      widget.groupTitles[index],
-                      style: widget.titleGroupedTextStyle ??
-                          Theme.of(context).textTheme.headline6?.copyWith(
-                                fontSize: 16,
-                              ),
+                  Container(
+                    height: 40,
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: widget.titleGroupedTextStyle!.backgroundColor,
+                      borderRadius: BorderRadius.all(Radius.circular(40))
                     ),
+                    child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                          Text(
+                          widget.groupTitles[index],
+                          textAlign: TextAlign.left,
+                          style: widget.titleGroupedTextStyle ??
+                              Theme.of(context).textTheme.headline6?.copyWith(
+                                    fontSize: 16,
+                                  ),
+                        ),
+                        Text(
+                          widget.groupLimits[index]['min'] > 0 ? '(obrigatório)' : '',
+                          textAlign: TextAlign.right,
+                          style: widget.titleGroupedTextStyle ??
+                              Theme.of(context).textTheme.headline6?.copyWith(
+                                    fontSize: 12,
+                                  ),
+                        ),
+                        ]),
                   ),
-                  SimpleGroupedChips<T>(
+                  Padding(padding:EdgeInsets.symmetric(horizontal: 20), child: SimpleGroupedChips<T>(
                     controller: listControllers[index],
                     itemTitle: widget.titles[index],
                     values: widget.values[index] as List<T>,
                     isScrolling: widget.chipsStyle.isScrolling,
-                    backgroundColorItem: widget.chipsStyle.backgroundColorItem,
-                    disabledColor: widget.chipsStyle.disabledColor,
-                    selectedColorItem: widget.chipsStyle.selectedColorItem,
-                    selectedIcon: widget.chipsStyle.selectedIcon,
-                    selectedTextColor: widget.chipsStyle.selectedTextColor,
-                    textColor: widget.chipsStyle.textColor,
+                    chipGroupStyle: ChipGroupStyle(
+                      //itemTitleStyle: widget.chipsStyle.i,
+                      backgroundColorItem: widget.chipsStyle.backgroundColorItem,
+                      disabledColor: widget.chipsStyle.disabledColor,
+                      selectedColorItem: widget.chipsStyle.selectedColorItem,
+                      selectedIcon: widget.chipsStyle.selectedIcon,
+                      selectedTextColor: widget.chipsStyle.selectedTextColor,
+                      textColor: widget.chipsStyle.textColor,
+                    ),
+                      backgroundColorItem: widget.chipsStyle.backgroundColorItem,
+                      disabledColor: widget.chipsStyle.disabledColor,
+                      selectedColorItem: widget.chipsStyle.selectedColorItem,
+                      selectedTextColor: widget.chipsStyle.selectedTextColor,
+                      selectedIcon: widget.chipsStyle.selectedIcon,
+                      textColor: widget.chipsStyle.textColor,
                     onItemSelected: widget.onSelectedGroupChanged != null
                         ? (selection) async {
                             final list = await getAllValues();
                             widget.onSelectedGroupChanged!(list);
                           }
                         : null,
-                  )
+                  ))
                 ],
               );
             } else if (widget.mapItemGroupedType![index] ==
@@ -205,22 +237,46 @@ class ListGroupedCheckboxState<T> extends State<ListGroupedCheckbox> {
           }
         }
         return Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ListTile(
-                    title: Text(
-                      widget.groupTitles[index],
-                      style: widget.titleGroupedTextStyle ??
-                          Theme.of(context).textTheme.headline6?.copyWith(
-                                fontSize: 16,
-                              ),
+                  Container(
+                    height: 40,
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    decoration: BoxDecoration(
+                      color: widget.titleGroupedTextStyle!.backgroundColor,
+                      borderRadius: BorderRadius.all(Radius.circular(40))
                     ),
+                    child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                          Text(
+                          widget.groupTitles[index],
+                          textAlign: TextAlign.left,
+                          // style: widget.titleGroupedTextStyle ??
+                          //     Theme.of(context).textTheme.headline6?.copyWith(
+                          //           fontSize: 16,
+                          //         ),
+                        ),
+                        Text(
+                      widget.groupLimits[index]['max'] == 1 ? '(escolha 1 opção)' : '(escolha até ${widget.groupLimits[index]['max'].toString()})',
+                          textAlign: TextAlign.right,
+                          style: TextStyle(fontStyle: FontStyle.italic),
+                          // style: widget.titleGroupedTextStyle ??
+                          //     Theme.of(context).textTheme.headline6?.copyWith(
+                          //           fontSize: 12,
+                          //         ),
+                        ),
+                        ]),
                   ),
-                  SimpleGroupedCheckbox<T>(
+                  Padding(padding:EdgeInsets.symmetric(horizontal: 20), child: SimpleGroupedCheckbox<T>(
           helperGroupTitle: false,
           isLeading: true,
           controller: listControllers[index],
           itemsTitle: widget.titles[index],
+          
+          groupStyle: GroupStyle(
+            activeColor: widget.chipsStyle.selectedColorItem,
+          ),
           values: widget.values[index] as List<T>,
           disableItems: widget.disabledValues.isNotEmpty
               ? widget.disabledValues[index] as List<String>
@@ -234,7 +290,7 @@ class ListGroupedCheckboxState<T> extends State<ListGroupedCheckbox> {
                   widget.onSelectedGroupChanged!(list);
                 }
               : null,
-        )
+        ))
                 ]
         );
       },

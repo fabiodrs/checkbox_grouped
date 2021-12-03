@@ -44,7 +44,7 @@ class SimpleGroupedCheckbox<T> extends StatefulWidget {
   final List<String> itemsTitle;
   final OnChanged? onItemSelected;
   final String? groupTitle;
-  final List<num>? itemsPrice;
+  final List<String>? itemsPrice;
   final AlignmentGeometry groupTitleAlignment;
   final List<String> itemsSubTitle;
   final GroupStyle? groupStyle;
@@ -374,7 +374,7 @@ class _TitleGroupedCheckbox extends StatelessWidget {
   Widget build(BuildContext context) {
     if (isMultiSelection && title != null && checkboxTitle != null) {
       return ListTile(
-        //contentPadding: EdgeInsets.zero,
+        contentPadding: EdgeInsets.zero,
         title: Text(
           title!,
           style: titleStyle ??
@@ -397,7 +397,7 @@ class _TitleGroupedCheckbox extends StatelessWidget {
     }
     if (title != null)
       return ListTile(
-        //contentPadding: EdgeInsets.zero,
+        contentPadding: EdgeInsets.zero,
         title: Align(
           alignment: alignment,
           child: Text(
@@ -422,7 +422,7 @@ class _CheckboxItem<T> extends StatelessWidget {
   final T selectedValue;
   final Item item;
   final String? itemSubTitle;
-  final num? itemPrice;
+  final String? itemPrice;
   final int index;
   final Color? activeColor;
   final TextStyle? itemStyle;

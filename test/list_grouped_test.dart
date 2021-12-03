@@ -27,7 +27,7 @@ void main() async {
             ),
             prices: List.generate(
               3,
-              (i) => List.generate(5, (j) => 0),
+              (i) => List.generate(5, (j) => '0'),
             ),
           ),
         ),
@@ -67,7 +67,7 @@ void main() async {
             ),
             prices: List.generate(
               3,
-              (i) => List.generate(5, (j) => 0),
+              (i) => List.generate(5, (j) => '0'),
             ),
           ),
         ),
@@ -104,7 +104,7 @@ void main() async {
             ),
             prices: List.generate(
               3,
-              (i) => List.generate(5, (j) => 0),
+              (i) => List.generate(5, (j) => '0'),
             ),
           ),
         ),

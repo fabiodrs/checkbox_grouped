@@ -73,7 +73,7 @@ abstract class StateGroup<K, T extends StatefulWidget> extends State<T>
     List<K> preSelection = const [],
     bool multiSelection = false,
     required List<String> itemsTitle,
-    List<num>? itemsPrice,
+    List<String>? itemsPrice,
     List<String>? disableItems,
   }) {
     this.values = values;

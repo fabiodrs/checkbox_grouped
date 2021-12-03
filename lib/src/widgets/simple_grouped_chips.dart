@@ -273,6 +273,10 @@ class _ChoiceChipsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChoiceChip(
+      shape: StadiumBorder(side: BorderSide(
+                color: isSelected! ? selectedColorItem! : disabledColor!,
+                width: isSelected! ? 0 : 1.0,
+              ),),
       label: label,
       avatar: avatar != null
           ? avatar
