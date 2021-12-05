@@ -16,6 +16,7 @@ void main() async {
           body: ListGroupedCheckbox(
             controller: controller,
             groupTitles: List.generate(3, (index) => "groupe $index"),
+            groupLimits: List.generate(3, (index) => {}),
             values: List.generate(
               3,
               (i) =>
@@ -60,6 +61,7 @@ void main() async {
           body: ListGroupedCheckbox(
             controller: controller,
             groupTitles: List.generate(3, (index) => "groupe $index"),
+            groupLimits: List.generate(3, (index) => {}),
             values: values,
             titles: List.generate(
               3,
@@ -97,6 +99,7 @@ void main() async {
           body: ListGroupedCheckbox(
             controller: controller,
             groupTitles: List.generate(3, (index) => "groupe $index"),
+            groupLimits: List.generate(3, (index) => {}),
             values: values,
             titles: List.generate(
               3,

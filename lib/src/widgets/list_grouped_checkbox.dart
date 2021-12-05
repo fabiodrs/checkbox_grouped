@@ -168,7 +168,7 @@ class ListGroupedCheckboxState<T> extends State<ListGroupedCheckbox> {
                                   ),
                         ),
                         Text(
-                          widget.groupLimits[index]['min'] > 0 ? '(obrigatório)' : '',
+                          widget.groupLimits[index]['min'] > 0 ? '(obrigatório - ${widget.groupLimits[index]['max'] == 1 ? 'escolha 1 item' : 'escolha até ${widget.groupLimits[index]['max'].toString()}'})' : widget.groupLimits[index]['max'] == 1 ? '(escolha 1 item)' : '(escolha até ${widget.groupLimits[index]['max'].toString()})',
                           textAlign: TextAlign.right,
                           style: widget.titleGroupedTextStyle ??
                               Theme.of(context).textTheme.headline6?.copyWith(
@@ -258,7 +258,7 @@ class ListGroupedCheckboxState<T> extends State<ListGroupedCheckbox> {
                           //         ),
                         ),
                         Text(
-                      widget.groupLimits[index]['max'] == 1 ? '(escolha 1 opção)' : '(escolha até ${widget.groupLimits[index]['max'].toString()})',
+                          widget.groupLimits[index]['min'] > 0 ? '(obrigatório - ${widget.groupLimits[index]['max'] == 1 ? 'escolha 1 item' : 'escolha até ${widget.groupLimits[index]['max'].toString()}'})' : widget.groupLimits[index]['max'] == 1 ? '(escolha 1 item)' : '(escolha até ${widget.groupLimits[index]['max'].toString()})',
                           textAlign: TextAlign.right,
                           style: TextStyle(fontStyle: FontStyle.italic),
                           // style: widget.titleGroupedTextStyle ??
